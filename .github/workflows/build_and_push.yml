@@ -10,6 +10,7 @@ jobs:
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
     runs-on: arc-runners
+    environment: NP
     steps:
     - name: Checkout
       uses: actions/checkout@v2
