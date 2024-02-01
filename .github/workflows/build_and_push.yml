@@ -19,6 +19,6 @@ jobs:
            password: ${{ secrets.ACR_PASSWORD }}
            registry: ${{ vars.ACR_REGISTRY }}
         - name: PackBuild
-          uses: dfreilich/pack-action@v2
+          uses: dfreilich/pack-action@v2.1.1
           with:
             args: 'build ${{ env.IMG_NAME }} --builder ${{ vars.BUILDER }} --publish'
