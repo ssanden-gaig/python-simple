@@ -5,20 +5,23 @@ on:
         branches:
             - main
 jobs:
-    build-and-push:
-        runs-on: arc-runners
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: SetAppName
-          run: 'echo "IMG_NAME=$(echo ${REGISTRY})/$(echo ${IMG_NAME})" >> $GITHUB_ENV'
-        - id: login
-          uses: docker/login-action@v1 
-          with:
-           username: ${{ secrets.ACR_USERNAME }}
-           password: ${{ secrets.ACR_PASSWORD }}
-           registry: ${{ vars.ACR_REGISTRY }}
-        - name: PackBuild
-          uses: dfreilich/pack-action@v2.1.1
-          with:
-            args: 'build ${{ env.IMG_NAME }} --builder ${{ vars.BUILDER }} --publish'
+  build-and-push:
+    env:
+      ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+      ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+    runs-on: arc-runners
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: SetAppName
+      run: 'echo "IMG_NAME=$(echo ${ACR_REGISTRY})/$(echo ${IMG_NAME})" >> $GITHUB_ENV'
+    - id: login
+      uses: docker/login-action@v1 
+      with:
+       username: ${{env.ACR_USERNAME}}
+       password: ${{env.ACR_PASSWORD}}
+       registry: ${{ vars.ACR_REGISTRY }}
+    - name: PackBuild
+      uses: dfreilich/pack-action@v2.1.1
+      with:
+        args: 'build ${{ env.IMG_NAME }} --builder ${{ vars.BUILDER }} --publish'
