@@ -23,9 +23,7 @@ jobs:
       with:
        username: ${{env.ACR_USERNAME}}
        password: ${{env.ACR_PASSWORD}}
-       registry: ${{ vars.ACR_REGISTRY }}
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3   
+       registry: ${{ vars.ACR_REGISTRY }} 
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
