@@ -9,6 +9,8 @@ jobs:
     env:
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+      ACR_REGISTRY:  ${{ vars.ACR_REGISTRY }}
+      IMG_NAME: "python-sample-app"
     runs-on: arc-runners
     environment: NP
     steps:
