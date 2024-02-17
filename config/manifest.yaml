@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hellocartoapp-ingress
+  namespace: devapps
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - http:
+      paths:
+      - path: /hello
+        pathType: Prefix
+        backend:
+          service:
+            name: hellocartoapp
+            port:
+              number: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellocartoapp
+  namespace: devapps
+  labels:
+    carto.run/workload-name: hellocartoapp
+    run: hellocartoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: hellocartoapp
+  template:
+    metadata:
+      labels:
+        run: hellocartoapp
+    spec:
+      containers:
+      - name: workload
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:fcdc0d7c89781ba822ed4747be678fef76763b8029e2681d3c8e0cc937765967
+        securityContext:
+          runAsUser: 1000
+      imagePullSecrets:
+      - name: image-pull-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellocartoapp
+  namespace: devapps
+  labels:
+    service: hellocartoapp
+    app: hellocartoapp
+spec:
+  ports:
+  - port: 8080
+    name: http
+    targetPort: 8080
+  selector:
+    run: hellocartoapp
+
