@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__,template_folder='templates')
 
 def load_config(): 
-    app_config = {"title": "Azure App Configuration Demo", "message": "Howdy All!"}
+    app_config = {"title": "Azure App Configuration Demo", "message": "Howdy All Yall!"}
     if connection_string := os.environ.get("AZURE_APPCONFIG_CONNECTION_STRING"):
         # Connect to Azure App Configuration using a connection string.
          logger.info(f"Loading config from Azure App Configuration {connection_string}")
