@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
       - name: workload
-        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:42b6e7962313e9ea7184b0df0e1599cf89848af061902c8c1dc96224f2566fde
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:dd6289a68432783eef282d267776fb6332466c8e363524f4845d08c19fcea5ab
         securityContext:
           runAsUser: 1000
       imagePullSecrets:
