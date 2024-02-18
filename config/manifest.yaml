@@ -4,7 +4,6 @@ metadata:
   name: hellocartoapp-ingress
   namespace: appworkloads
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
