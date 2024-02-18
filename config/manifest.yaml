@@ -10,10 +10,10 @@ metadata:
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: simplepy.az.ga.afginc.com
+  - host: simplepy.apps.aznpiplatops.az.ga.afginc.com
     http:
       paths:
-      - path: /hello
+      - path: /
         pathType: Prefix
         backend:
           service:
