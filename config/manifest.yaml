@@ -3,9 +3,6 @@ kind: Ingress
 metadata:
   name: hellocartoapp-ingress
   namespace: appworkloads
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   ingressClassName: nginx-internal
   rules:
@@ -18,7 +15,7 @@ spec:
           service:
             name: hellocartoapp
             port:
-              number: 80
+              name: http
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -58,6 +55,7 @@ spec:
   ports:
   - port: 80
     name: http
+    protocol: TCP
     targetPort: 8080
   selector:
     run: hellocartoapp
