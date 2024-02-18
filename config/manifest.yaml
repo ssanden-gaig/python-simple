@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hellocartoapp-ingress
-  namespace: workloads
+  namespace: appworkloads
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -25,7 +25,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hellocartoapp
-  namespace: workloads
+  namespace: appworkloads
   labels:
     carto.run/workload-name: hellocartoapp
     run: hellocartoapp
@@ -40,7 +40,7 @@ spec:
         run: hellocartoapp
     spec:
       containers:
-      - name: workload
+      - name: appworkloads
         image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:bbec77a48b7594f96ed69cc2978479d723a008a4dc6fba6837dfbb7734748e37
         securityContext:
           runAsUser: 1000
@@ -51,7 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hellocartoapp
-  namespace: workloads
+  namespace: appworkloads
   labels:
     service: hellocartoapp
     app: hellocartoapp
