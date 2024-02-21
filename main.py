@@ -36,8 +36,10 @@ def redistest():
     logger.info(f"Setting date for key {key}")
     r.set(key, datetime.datetime.now().isoformat())
     return_val= r.get(key)
-    logger.info(f"The date value from Redis : {return_val}")
-   
+    connection =f"Connected to Redis: {r}"
+    message=f"The date value for key:{key} from Redis is {return_val}"
+
+    return render_template('redis.html', message=message, connection=connection)
 
 @app.route('/')
 def index():
