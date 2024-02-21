@@ -1,6 +1,7 @@
 import logging
 import logging.config
 import os
+import uuid
 from flask import Flask, render_template
 from azure.appconfiguration.provider import load
 
@@ -27,13 +28,14 @@ def redistest():
     # using redis
     import redis
     logger.info("Testing Redis")
-    r = redis.Redis(host='mydb-redis-master.appworkloads.svc.cluster.local', port=6379, db=0)
+    redis_pw = os.environ["REDIS_PASSWORD"]
+    r = redis.Redis(host='mydb-redis-master.appworkloads.svc.cluster.local', port=6379, db=0,password=redis_pw)
     logger.info(r)
     logger.info("Setting key foo to bar")
-    r.set('foo', 'bar')
-    return_val= r.get('foo')
+    r.set('TheID', uuid.uuid4())
+    return_val= r.get('TheID')
     logger.info(f"return_val: {return_val}")
-    #render_template('index.html', return_val=return_val)
+   
 
 @app.route('/')
 def index():
