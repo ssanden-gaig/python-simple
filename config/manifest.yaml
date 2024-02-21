@@ -37,16 +37,9 @@ spec:
     spec:
       containers:
       - name: appworkloads
-        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:5f0091124b952e1feb921fe8e68c02d7b4efed8c111a2a7952596fab03d931e8
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:504a85f5694129d8865db364604dfd6bfe25c7a356b2a143752fef559f05d8f7
         securityContext:
           runAsUser: 1000
-        resources:
-          limits:
-            cpu: "1"
-            memory: "1Gi"
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
       imagePullSecrets:
       - name: image-pull-sa
 ---
