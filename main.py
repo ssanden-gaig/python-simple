@@ -22,6 +22,19 @@ def load_config():
 
     return app_config 
 
+@app.route('/redistest')
+def redistest():
+    # using redis
+    import redis
+    logger.info("Testing Redis")
+    r = redis.Redis(host='mydb-redis-master.appworkloads.svc.cluster.local', port=6379, db=0)
+    logger.info(r)
+    logger.info("Setting key foo to bar")
+    r.set('foo', 'bar')
+    return_val= r.get('foo')
+    logger.info(f"return_val: {return_val}")
+    #render_template('index.html', return_val=return_val)
+
 @app.route('/')
 def index():
     config = load_config()
