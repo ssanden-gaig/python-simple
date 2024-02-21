@@ -40,6 +40,12 @@ spec:
         image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:ca4a188dcbee935c2c09b1b026f0f8e03db496d6255fdd0de6adc1acf5a4db9d
         securityContext:
           runAsUser: 1000
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mydb-redis
+              key: redis-password
       imagePullSecrets:
       - name: image-pull-sa
 ---
