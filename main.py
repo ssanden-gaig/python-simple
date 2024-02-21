@@ -4,6 +4,7 @@ import os
 import uuid
 from flask import Flask, render_template
 from azure.appconfiguration.provider import load
+import datetime
 
 # setup loggers
 logging.config.fileConfig('logging.cfg', disable_existing_loggers=False)
@@ -30,11 +31,12 @@ def redistest():
     logger.info("Testing Redis")
     redis_pw = os.environ["REDIS_PASSWORD"]
     r = redis.Redis(host='mydb-redis-master.appworkloads.svc.cluster.local', port=6379, db=0,password=redis_pw)
-    logger.info(r)
-    logger.info("Setting key foo to bar")
-    r.set('TheID', uuid.uuid4())
-    return_val= r.get('TheID')
-    logger.info(f"return_val: {return_val}")
+    logger.info(f"Connected to Redis: {r}")
+    key = str(uuid.uuid4())
+    logger.info(f"Setting date for key {key}")
+    r.set(key, datetime.datetime.now().isoformat())
+    return_val= r.get(key)
+    logger.info(f"The date value from Redis : {return_val}")
    
 
 @app.route('/')
