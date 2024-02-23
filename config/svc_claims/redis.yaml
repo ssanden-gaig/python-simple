@@ -5,7 +5,8 @@ metadata:
   namespace: appworkloads
 spec:
   writeConnectionSecretToRef:
-    name: redis-conn
+    name: myredis-secret
+    namespace: appworkloads
   compositionSelector:
     matchLabels:
       provider: local
