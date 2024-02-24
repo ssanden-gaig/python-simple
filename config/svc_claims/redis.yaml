@@ -13,4 +13,4 @@ spec:
   resourceRef:
     apiVersion: salaboy.com/v1alpha1
     kind: XDatabase
-    name: appworkloads-redis-master-0
+    name: db.local.salaboy.com
