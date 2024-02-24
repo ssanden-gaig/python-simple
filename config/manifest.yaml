@@ -1,0 +1,68 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hellocartoapp-ingress
+  namespace: appworkloads
+spec:
+  ingressClassName: nginx-internal
+  rules:
+  - host: simplepy.apps.aznpiplatops.az.ga.afginc.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hellocartoapp
+            port:
+              name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellocartoapp
+  namespace: appworkloads
+  labels:
+    carto.run/workload-name: hellocartoapp
+    run: hellocartoapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: hellocartoapp
+  template:
+    metadata:
+      labels:
+        run: hellocartoapp
+    spec:
+      containers:
+      - name: appworkloads
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:7b050f84c018d215fde794f7eccf7dc2f32d6474c5cab41a6c8b62c38734cc71
+        securityContext:
+          runAsUser: 1000
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mydb-redis
+              key: redis-password
+      imagePullSecrets:
+      - name: image-pull-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hellocartoapp
+  namespace: appworkloads
+  labels:
+    service: hellocartoapp
+    app: hellocartoapp
+spec:
+  ports:
+  - port: 80
+    name: http
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: hellocartoapp
+
