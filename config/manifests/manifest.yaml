@@ -44,8 +44,15 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: redis-conn
+              name: appworkloads-redis
               key: redis-password
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
       imagePullSecrets:
       - name: image-pull-sa
 ---
