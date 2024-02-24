@@ -2,15 +2,8 @@ apiVersion: salaboy.com/v1alpha1
 kind: Redis
 metadata:
   name: myredis
-  namespace: appworkloads
 spec:
-  writeConnectionSecretToRef:
-    name: myredis-secret
-    namespace: appworkloads
-  compositionSelector:
-    matchLabels:
-      provider: local
-      type: dev
-  parameters:
-    mockData: true
-    size: small
+  resourceRef:
+    apiVersion: salaboy.com/v1alpha1
+    kind: XDatabase
+    name: appworkloads-redis-master-0
