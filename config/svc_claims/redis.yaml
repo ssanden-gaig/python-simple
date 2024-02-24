@@ -3,6 +3,13 @@ kind: RedisDB
 metadata:
   name: myredis
 spec:
+  compositionSelector:
+    matchLabels:
+      provider: local
+      type: dev
+  parameters:
+    mockData: true
+    size: small
   resourceRef:
     apiVersion: salaboy.com/v1alpha1
     kind: XDatabase
