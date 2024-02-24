@@ -1,5 +1,5 @@
 apiVersion: salaboy.com/v1alpha1
-kind: Redis
+kind: RedisDB
 metadata:
   name: myredis
 spec:
