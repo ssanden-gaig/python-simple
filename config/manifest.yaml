@@ -37,14 +37,14 @@ spec:
     spec:
       containers:
       - name: appworkloads
-        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:f000281d183d67689ffddb4b7bef2deff22b58fe365ae7818ef4f3c5d9805278
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:b7dd027e35e1681742b823b43764993e651f8d99cce96db5140037350b08597f
         securityContext:
           runAsUser: 1000
         env:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: appworkloads-redis
+              name: mydb-redis
               key: redis-password
       imagePullSecrets:
       - name: image-pull-sa
