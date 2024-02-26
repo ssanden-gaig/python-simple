@@ -44,7 +44,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: appworkloads-redis
+              name: redis
               key: redis-password
       imagePullSecrets:
       - name: image-pull-sa
