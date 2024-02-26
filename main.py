@@ -28,11 +28,12 @@ def load_config():
 def redistest():
     # using redis
     import redis
+
     logger.info("Testing Redis connection")
     redis_pw = os.environ["REDIS_PASSWORD"]
+    redis_connection_url = os.environ["REDIS_URL"]
      
-
-    r = redis.Redis(host='redis-master.appworkloads.svc.cluster.local', port=6379, db=0,password=redis_pw)
+    r = redis.Redis(host=redis_connection_url, port=6379, db=0,password=redis_pw)
     logger.info(f"Connected to Redis: {r}")
     key = str(uuid.uuid4())
     logger.info(f"Setting date for key {key}")
