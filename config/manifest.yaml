@@ -36,7 +36,7 @@ spec:
         run: hellocartoapp
     spec:
       containers:
-      - name: appworkloads
+      - name: simplyapp
         image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:011356fa868564beb5b11d952740e58f0eaf78e3657a5db4bf80ca446aadd66f
         securityContext:
           runAsUser: 1000
@@ -44,7 +44,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mydb-redis
+              name: appworkloads-redis
               key: redis-password
       imagePullSecrets:
       - name: image-pull-sa
