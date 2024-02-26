@@ -14,4 +14,4 @@ spec:
     mockData: true
     size: small
   writeConnectionSecretToRef:
-    name: redis
+    name: redis-secret
