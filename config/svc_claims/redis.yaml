@@ -1,7 +1,10 @@
 apiVersion: salaboy.com/v1alpha1
 kind: RedisDB
 metadata:
+  labels:
+   crossplane.io/claim-name: myredis
   name: myredis
+  namespace: appworkloads
 spec:
   compositionSelector:
     matchLabels:
@@ -10,7 +13,5 @@ spec:
   parameters:
     mockData: true
     size: small
-  resourceRef:
-    apiVersion: salaboy.com/v1alpha1
-    kind: XDatabase
-    name: db.local.salaboy.com
+  writeConnectionSecretToRef:
+    name: redis_credential
