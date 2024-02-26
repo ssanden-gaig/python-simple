@@ -32,7 +32,7 @@ def redistest():
     redis_pw = os.environ["REDIS_PASSWORD"]
      
 
-    r = redis.Redis(host='appworkloads-redis-master.appworkloads.svc.cluster.local', port=6379, db=0,password=redis_pw)
+    r = redis.Redis(host='redis-master.appworkloads.svc.cluster.local', port=6379, db=0,password=redis_pw)
     logger.info(f"Connected to Redis: {r}")
     key = str(uuid.uuid4())
     logger.info(f"Setting date for key {key}")
