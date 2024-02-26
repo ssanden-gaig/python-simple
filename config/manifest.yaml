@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: simplyapp
-        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:011356fa868564beb5b11d952740e58f0eaf78e3657a5db4bf80ca446aadd66f
+        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:791e3daac4534dcb09d4aaf590dc59ee0b51183023a002794ac5bb09569c7fab
         securityContext:
           runAsUser: 1000
         env:
