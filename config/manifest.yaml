@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hellocartoapp-ingress
-  namespace: appbuilder
+  name: simplepy-ingress
+  namespace: myapps
 spec:
   ingressClassName: nginx-internal
   rules:
@@ -13,36 +13,36 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: hellocartoapp
+            name: simplepy
             port:
               name: http
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hellocartoapp
-  namespace: appbuilder
+  name: simplepy
+  namespace: myapps
   labels:
-    carto.run/workload-name: hellocartoapp
-    run: hellocartoapp
+    carto.run/workload-name: simplepy
+    run: simplepy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: hellocartoapp
+      run: simplepy
   template:
     metadata:
       labels:
-        run: hellocartoapp
+        run: simplepy
     spec:
       containers:
-      - name: hellocartoapp
-        image: ghcr.io/ssanden-gaig/hellocartoapp@sha256:4639999fec05438573da937fe4c1db3bdb372a1fc5995c18bedf2f33237ce6b5
+      - name: simplepy
+        image: ghcr.io/ssanden-gaig/simplepy@sha256:354e476b8a72f63638521b9677c5351023db179e67c6094da73b8d520907e00e
         securityContext:
           runAsUser: 1000
         env:
         - name: REDIS_URL
-          value: redis-master.appbuilder.svc.cluster.local
+          value: redis-master.myapps.svc.cluster.local
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -54,11 +54,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hellocartoapp
-  namespace: appbuilder
+  name: simplepy
+  namespace: myapps
   labels:
-    service: hellocartoapp
-    app: hellocartoapp
+    service: simplepy
+    app: simplepy
 spec:
   ports:
   - port: 80
@@ -66,5 +66,5 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    run: hellocartoapp
+    run: simplepy
 
