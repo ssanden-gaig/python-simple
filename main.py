@@ -24,7 +24,7 @@ def load_config():
 
     return app_config 
 
-@app.route('/redistest')
+@app.route('/testredis')
 def redistest():
     # using redis
     import redis
