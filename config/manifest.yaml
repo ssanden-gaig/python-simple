@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hellocartoapp-ingress
-  namespace: appworkloads
+  namespace: appbuilder
 spec:
   ingressClassName: nginx-internal
   rules:
@@ -21,7 +21,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hellocartoapp
-  namespace: appworkloads
+  namespace: appbuilder
   labels:
     carto.run/workload-name: hellocartoapp
     run: hellocartoapp
@@ -36,11 +36,13 @@ spec:
         run: hellocartoapp
     spec:
       containers:
-      - name: simplyapp
-        image: ghcr.io/ssanden-gaig/example-basic-sc-hellocartoapp@sha256:6b2ca9a31a927d53abf4749870da82c1833590e82ff0bd34c094bffc6199a1a2
+      - name: hellocartoapp
+        image: ghcr.io/ssanden-gaig/hellocartoapp@sha256:4639999fec05438573da937fe4c1db3bdb372a1fc5995c18bedf2f33237ce6b5
         securityContext:
           runAsUser: 1000
         env:
+        - name: REDIS_URL
+          value: redis-master.appbuilder.svc.cluster.local
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -53,7 +55,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hellocartoapp
-  namespace: appworkloads
+  namespace: appbuilder
   labels:
     service: hellocartoapp
     app: hellocartoapp
