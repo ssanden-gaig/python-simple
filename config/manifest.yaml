@@ -40,14 +40,6 @@ spec:
         image: ghcr.io/ssanden-gaig/simplepy@sha256:ecbbbb70fcd3b226e02e1b1000b6c19b6f60d3e79a2f1d48297a7297a87e074b
         securityContext:
           runAsUser: 1000
-        env:
-        - name: REDIS_URL
-          value: redis-master.myapps.svc.cluster.local
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: redis
-              key: redis-password
       imagePullSecrets:
       - name: image-pull-sa
 ---
