@@ -41,7 +41,7 @@ def redistest():
         service_conn = dict(ChainMap(*bindings_list))
 
 
-        connection = redis.Redis(host=service_conn["hostname"], 
+        connection = redis.Redis(host=service_conn["host"], 
                                 port=int(service_conn["port"]), 
                                 db=0,password=service_conn["password"])
         
