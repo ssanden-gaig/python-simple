@@ -34,6 +34,7 @@ def redistest():
 
     from pyservicebinding import binding
     try:
+        logger.info("Creating ServiceBinding object")
         sb = binding.ServiceBinding()
         logger.info("Testing Redis connection")
     
