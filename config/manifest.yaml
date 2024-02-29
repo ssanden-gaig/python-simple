@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: simplepy
-        image: ghcr.io/ssanden-gaig/simplepy@sha256:ecbbbb70fcd3b226e02e1b1000b6c19b6f60d3e79a2f1d48297a7297a87e074b
+        image: ghcr.io/ssanden-gaig/simplepy@sha256:25679fb1ac1ad979298bac9a21d54f407b6b39478edd153944474201dbbd1eba
         securityContext:
           runAsUser: 1000
       imagePullSecrets:
