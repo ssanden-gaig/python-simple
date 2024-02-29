@@ -1,3 +1,4 @@
+from collections import ChainMap
 import logging
 import logging.config
 import os
@@ -5,6 +6,8 @@ import uuid
 from flask import Flask, render_template
 from azure.appconfiguration.provider import load
 import datetime
+from flask_bootstrap import Bootstrap5
+
 
 # setup loggers
 logging.config.fileConfig('logging.cfg', disable_existing_loggers=False)
@@ -13,6 +16,7 @@ logging.config.fileConfig('logging.cfg', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__,template_folder='templates')
+bootstrap = Bootstrap5(app)
 
 def load_config(): 
     app_config = {"title": "Azure App Configuration Demo", "message": "Howdy All!"}
@@ -26,23 +30,35 @@ def load_config():
 
 @app.route('/testredis')
 def redistest():
-    # using redis
     import redis
 
-    logger.info("Testing Redis connection")
-    redis_pw = os.environ["REDIS_PASSWORD"]
-    redis_connection_url = os.environ["REDIS_URL"]
-     
-    r = redis.Redis(host=redis_connection_url, port=6379, db=0,password=redis_pw)
-    logger.info(f"Connected to Redis: {r}")
-    key = str(uuid.uuid4())
-    logger.info(f"Setting date for key {key}")
-    r.set(key, datetime.datetime.now().isoformat())
-    return_val= r.get(key)
-    connection =f"Connected to Redis: {r}"
-    message=f"The date value for key:{key} from Redis is {return_val}"
+    from pyservicebinding import binding
+    try:
+        sb = binding.ServiceBinding()
+        logger.info("Testing Redis connection")
+    
+        bindings_list = sb.all_bindings()
+        service_conn = dict(ChainMap(*bindings_list))
 
-    return render_template('redis.html', message=message, connection=connection)
+
+        connection = redis.Redis(host=service_conn["hostname"], 
+                                port=int(service_conn["port"]), 
+                                db=0,password=service_conn["password"])
+        
+        logger.info(f"Connected to Redis: {r}")
+        key = str(uuid.uuid4())
+        logger.info(f"Setting date for key {key}")
+        connection.set(key, datetime.datetime.now().isoformat())
+        return_val= connection.get(key)
+       
+        message=f"The date value for key:{key} from Redis is {return_val}"
+
+        return render_template('redis.html', message=message, connection=connection)
+
+    except binding.ServiceBindingRootMissingError as msg:
+      # log the error message and retry/exit
+      logger.exception("SERVICE_BINDING_ROOT env var not set")
+      return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set", connection=None)
 
 @app.route('/')
 def index():

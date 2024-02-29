@@ -1,12 +1,24 @@
+<!-- {% from 'bootstrap5/nav.html' import render_nav_item %}
+{% from 'bootstrap5/utils.html' import render_messages %} -->
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Redis Connection Test</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Redis Demo</title>
+        <!-- {{ bootstrap.load_css() }} -->
+        <script src="{{url_for('.static',  filename='js/bootstap/bootstrap.min.js')}}"></script>
+        <link rel="stylesheet" type="text/css"
+        href="{{url_for('static', filename='css/bootstrap/bootstrap.css')}}">
 </head>
-<body style="background-color: rgb(39, 39, 179); color:azure ">
+<body>
     
-    <p style="font-weight:bold">Redis Connection: {{ connection }}</p>
-    <br/>
-    <p>Message: {{ message }}</p>
+    <div class="container-fluid">
+      <h2>Redis Connection Test</h2> 
+       <p class="lead">Conection -> {{ connection }}</p>
+     </div>
+   
+     <div class="container-fluid">
+       <h4>Test Message: {{ message }}</h4>
+    </div>
 </body>
 </html>
