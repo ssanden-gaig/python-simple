@@ -1,28 +1,28 @@
-# apiVersion: salaboy.com/v1alpha1
-# kind: XDatabase
-# metadata:
-#   name: redis
-# spec:
-#   compositionSelector:
-#     matchLabels:
-#       provider: local
-#       type: dev
-#   parameters:
-#     mockData: true
-#     size: small
-#   writeConnectionSecretToRef:
-#     name: redis-secret
-#     namespace: myapps
-# ---
-# apiVersion: servicebinding.io/v1beta1
-# kind: ServiceBinding
-# metadata:
-#   name: simplepy-redis-binding
-#   namespace: myapps
-# spec:
-#   service:
-#     apiVersion: salaboy.com/v1alpha1
-#     kind: XDatabase
+apiVersion: salaboy.com/v1alpha1
+kind: XDatabase
+metadata:
+  name: redis
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: local
+      type: dev
+  parameters:
+    mockData: true
+    size: small
+  writeConnectionSecretToRef:
+    name: redis-secret
+    namespace: myapps
+---
+apiVersion: servicebinding.io/v1beta1
+kind: ServiceBinding
+metadata:
+  name: simplepy-redis-binding
+  namespace: myapps
+spec:
+  service:
+    apiVersion: salaboy.com/v1alpha1
+    kind: XDatabase
 #     name:  redis
 #   workload:
 #     apiVersion: apps/v1
