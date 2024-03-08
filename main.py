@@ -51,25 +51,28 @@ def redistest():
         sb = binding.ServiceBinding()
         logger.info("Testing Redis connection")
         
-        bindings_list = sb.bindings("redis")
-        service_conn = dict(ChainMap(*bindings_list))
+        if bindings_list := sb.bindings("redis"):
 
-        connection = redis.Redis(host=service_conn["host"], 
-                                port=int(service_conn["port"]), 
-                                db=0,password=service_conn["password"])
+            service_conn = dict(ChainMap(*bindings_list))
+
+            connection = redis.Redis(host=service_conn["host"], 
+                                    port=int(service_conn["port"]), 
+                                    db=0,password=service_conn["password"])
+            
+            key = str(uuid.uuid4())
+            logger.info(f"Setting date for key {key}")
+            connection.set(key, datetime.datetime.now().isoformat())
+            return_val= connection.get(key)
         
-        key = str(uuid.uuid4())
-        logger.info(f"Setting date for key {key}")
-        connection.set(key, datetime.datetime.now().isoformat())
-        return_val= connection.get(key)
-       
-        message=f"The date value for key:{key} from Redis is {return_val}"
-        return render_template('redis.html', message=message, connection=connection)
+            message=f"The date value for key:{key} from Redis is {return_val}"
+            return render_template('redis.html', message=message, connection=connection)
 
     except binding.ServiceBindingRootMissingError as msg:
-      # log the error message and retry/exit
-      logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
-      return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
+       # log the error message and retry/exit
+       logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
+       return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
+     
+    return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
 
 @app.route('/')
 def index():
