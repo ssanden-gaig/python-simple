@@ -23,8 +23,8 @@ spec:
   service:
     apiVersion: salaboy.com/v1alpha1
     kind: XDatabase
-#     name:  redis
-#   workload:
-#     apiVersion: apps/v1
-#     kind: Deployment
-#     name: simplepy
+    name:  redis
+  workload:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: simplepy
