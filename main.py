@@ -19,6 +19,10 @@ app = Flask(__name__,template_folder='templates')
 bootstrap = Bootstrap5(app)
 
 def load_config(): 
+
+    ## set the default config
+    app_config = {"title": "PySimple App Demo", "message": "Howdy All .. Looks like Azure App Configuration isn't available!"}
+    
     try:
         sb = binding.ServiceBinding()
         bindings_list = sb.bindings("cloud-config")
@@ -30,16 +34,14 @@ def load_config():
              logger.info(f"Loading config from Azure App Configuration {connection_string}")
              app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
              allitems = app_config_client.list_configuration_settings(key_filter="*")
-             app_config = {}
              for item in allitems:
                     app_config[item.key] = item.value
-             return app_config  
             
     except binding.ServiceBindingRootMissingError as msg:
       # log the error message and retry/exit
       logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
-      app_config = {"title": "PySimple App Demo", "message": "Howdy All .. Looks like Azure App Configuration isn't available!"}
-      return app_config 
+     
+    return app_config 
 
 @app.route('/testredis')
 def redistest():
