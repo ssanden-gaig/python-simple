@@ -7,7 +7,7 @@ from flask import Flask, render_template
 from azure.appconfiguration.provider import load
 import datetime
 from flask_bootstrap import Bootstrap5
-
+from pyservicebinding import binding
 
 # setup loggers
 logging.config.fileConfig('logging.cfg', disable_existing_loggers=False)
@@ -19,26 +19,31 @@ app = Flask(__name__,template_folder='templates')
 bootstrap = Bootstrap5(app)
 
 def load_config(): 
-    app_config = {"title": "Azure App Configuration Demo", "message": "Howdy All!"}
-    if connection_string := os.environ.get("AZURE_APPCONFIG_CONNECTION_STRING"):
-        # Connect to Azure App Configuration using a connection string.
-         logger.info(f"Loading config from Azure App Configuration {connection_string}")
-         if config := load(connection_string=connection_string):
-            app_config = config
-
-    return app_config 
+    try:
+        sb = binding.ServiceBinding()
+        bindings_list = sb.bindings("cloud-config")
+        if bindings_list:
+            service_conn = dict(ChainMap(*bindings_list))
+            if connection_string := service_conn.get("host"):
+            # Connect to Azure App Configuration using a connection string.
+             logger.info(f"Loading config from Azure App Configuration {connection_string}")
+             if config := load(connection_string=connection_string):
+                app_config = config
+    except binding.ServiceBindingRootMissingError as msg:
+      # log the error message and retry/exit
+      logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
+      app_config = {"title": "PySimple App Demo", "message": "Howdy All .. Looks like Azure App Configuration isn't available!"}
+      return app_config 
 
 @app.route('/testredis')
 def redistest():
     import redis
-
-    from pyservicebinding import binding
     try:
         logger.info("Creating ServiceBinding object")
         sb = binding.ServiceBinding()
         logger.info("Testing Redis connection")
-    
-        bindings_list = sb.all_bindings()
+        
+        bindings_list = sb.bindings("postgresql")
         service_conn = dict(ChainMap(*bindings_list))
 
         connection = redis.Redis(host=service_conn["host"], 
@@ -61,7 +66,7 @@ def redistest():
 @app.route('/')
 def index():
     config = load_config()
+    if 'title' not in config:
+        config['title'] = "SimplePy App Demo"
     logger.info("Rendering index.html with config")
     return render_template('index.html', config=config)
-
-#app.run(host='0.0.0.0', port=5000, debug=True)
