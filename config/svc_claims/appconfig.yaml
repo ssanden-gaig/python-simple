@@ -1,14 +1,14 @@
-apiVersion: servicebinding.io/v1beta1
-kind: ServiceBinding
-metadata:
-  name: simplepy-appconfig-binding
-  namespace: myapps
-spec:
-  service:
-    apiVersion: gaig.clusterservices.com/v1alpha1
-    kind: XAppConfig
-    name:  appconfig
-  workload:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: simplepy
+# apiVersion: servicebinding.io/v1beta1
+# kind: ServiceBinding
+# metadata:
+#   name: simplepy-appconfig-binding
+#   namespace: myapps
+# spec:
+#   service:
+#     apiVersion: gaig.clusterservices.com/v1alpha1
+#     kind: XAppConfig
+#     name:  appconfig
+#   workload:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: simplepy
