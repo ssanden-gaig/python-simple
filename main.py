@@ -20,12 +20,12 @@ bootstrap = Bootstrap5(app)
 
 def load_config(): 
     try:
-            service_conn = {"host":"Endpoint=https://appconfig-fc2dk.azconfig.io;Id=UFSU;Secret=aT5WMI4yYDfV8pgF0LbUTI4MKampGAYNMnHbSNXucFI="}    
-        # sb = binding.ServiceBinding()
-        # bindings_list = sb.bindings("cloud-config")
-        # if bindings_list:
-        #     service_conn = dict(ChainMap(*bindings_list))
+        sb = binding.ServiceBinding()
+        bindings_list = sb.bindings("cloud-config")
+        if bindings_list:
+            service_conn = dict(ChainMap(*bindings_list))
             if connection_string := service_conn.get("host"):
+            
              # Connect to Azure App Configuration using a connection string.
              logger.info(f"Loading config from Azure App Configuration {connection_string}")
              app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
