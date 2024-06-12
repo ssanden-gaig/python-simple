@@ -4,7 +4,7 @@ metadata:
   name: simplepy-ingress
   namespace: myapps
 spec:
-  ingressClassName: nginx-internal
+  ingressClassName: cilium
   rules:
   - host: simplepy.apps.aznpiplatops.az.ga.afginc.com
     http:
