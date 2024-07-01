@@ -1,0 +1,61 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: otherpy-ingress
+  namespace: myapps
+spec:
+  ingressClassName: cilium
+  rules:
+  - host: otherpy.apps.aznpiplatops.az.ga.afginc.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: otherpy
+            port:
+              name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otherpy
+  namespace: myapps
+  labels:
+    run: otherpy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: otherpy
+  template:
+    metadata:
+      labels:
+        run: otherpy
+    spec:
+      containers:
+      - name: otherpy
+        image: ghcr.io/ssanden-gaig/simplepy@sha256:5455eb0b6e0cbc0b1b154b7d33d87b8ff787c10382a78bab4910bfde80a7bd9f
+        securityContext:
+          runAsUser: 1000
+      imagePullSecrets:
+      - name: image-pull-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otherpy
+  namespace: myapps
+  labels:
+    service: otherpy
+    app: otherpy
+spec:
+  ports:
+  - port: 80
+    name: "http"
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: otherpy
+
