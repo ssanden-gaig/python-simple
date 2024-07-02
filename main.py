@@ -78,12 +78,12 @@ def redistest():
 def index():
     config = load_config()
     if 'title' not in config:
-        config['title'] = "SimplePy App Demo"
-        
+       config['title'] = "SimplePy App Demo"
+
     config["podName"]= os.getenv("POD_NAME","PODNAME")
-	config['nodeName'] = os.getenv("NODE_NAME","NODENAME")
-	config['podIp']  = os.getenv("POD_IP","PODIP")
-	config['podNamespace']  = os.getenv("POD_NAMESPACE","PODNAMESPACE")
-	    
+    config['nodeName'] = os.getenv("NODE_NAME","NODENAME")
+    config['podIp']  = os.getenv("POD_IP","PODIP")
+    config['podNamespace']  = os.getenv("POD_NAMESPACE","PODNAMESPACE")
+
     logger.info("Rendering index.html with config")
     return render_template('index.html', config=config)
