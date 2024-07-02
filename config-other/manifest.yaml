@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: otherpy
-        image: ghcr.io/ssanden-gaig/pysimple:v1.5
+        image: ghcr.io/ssanden-gaig/pysimple:v1.6
         securityContext:
           runAsUser: 1000
         resources:

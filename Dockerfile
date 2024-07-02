@@ -12,8 +12,10 @@ WORKDIR /home/johndoe
 RUN python -m venv venv
 RUN  . venv/bin/activate
 
-COPY --chown=johndoe:johndoe config config
-COPY --chown=johndoe:johndoe main.py logging.cfg requirements.txt docker_run.sh ./
+ADD --chown=johndoe:johndoe config config
+ADD --chown=johndoe:johndoe templates templates
+ADD --chown=johndoe:johndoe static static
+COPY --chown=johndoe:johndoe  main.py logging.cfg requirements.txt docker_run.sh ./
 RUN venv/bin/pip install  --trusted-host nexus.gaig.com -r requirements.txt
 RUN chmod +x docker_run.sh
 
