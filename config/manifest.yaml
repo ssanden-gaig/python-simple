@@ -36,9 +36,37 @@ spec:
     spec:
       containers:
       - name: simplepy
-        image: ghcr.io/ssanden-gaig/simplepy@sha256:5455eb0b6e0cbc0b1b154b7d33d87b8ff787c10382a78bab4910bfde80a7bd9f
+        image: ghcr.io/ssanden-gaig/pysimple:v1.2
         securityContext:
           runAsUser: 1000
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name                
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: POD_SERVICE_ACCOUNT
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.serviceAccountName    
       imagePullSecrets:
       - name: image-pull-sa
 ---
