@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: simplepy-ingress
+  name: simplepy
   namespace: myapps
 spec:
   ingressClassName: cilium
   rules:
-  - host: simplepy.apps.aznpiplatops.az.ga.afginc.com
+  - host: *.apps.az.ga.afginc.com
     http:
       paths:
       - path: /
@@ -23,7 +23,6 @@ metadata:
   name: simplepy
   namespace: myapps
   labels:
-    carto.run/workload-name: simplepy
     run: simplepy
 spec:
   replicas: 1

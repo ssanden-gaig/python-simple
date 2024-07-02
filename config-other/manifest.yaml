@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: otherpy-ingress
+  name: otherpy
   namespace: myapps
 spec:
   ingressClassName: cilium
   rules:
-  - host: otherpy.apps.aznpiplatops.az.ga.afginc.com
+  - host: *.apps.az.ga.afginc.com
     http:
       paths:
       - path: /
