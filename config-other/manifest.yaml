@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - host: *.apps.az.ga.afginc.com
+  - host: "*.apps.az.ga.afginc.com"
     http:
       paths:
       - path: /
