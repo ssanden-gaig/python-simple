@@ -23,56 +23,56 @@ def load_config():
     ## set the default config
     app_config = {"title": "PySimple App Demo", "message": "Howdy All .. Looks like Azure App Configuration isn't available!"}
     
-    try:
-        sb = binding.ServiceBinding()
-        bindings_list = sb.bindings("cloud-config")
-        if bindings_list:
-            service_conn = dict(ChainMap(*bindings_list))
-            if connection_string := service_conn.get("host"):
+    # try:
+    #     sb = binding.ServiceBinding()
+    #     bindings_list = sb.bindings("cloud-config")
+    #     if bindings_list:
+    #         service_conn = dict(ChainMap(*bindings_list))
+    #         if connection_string := service_conn.get("host"):
             
-             # Connect to Azure App Configuration using a connection string.
-             logger.info(f"Loading config from Azure App Configuration {connection_string}")
-             app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
-             allitems = app_config_client.list_configuration_settings(key_filter="*")
-             for item in allitems:
-                    app_config[item.key] = item.value
+    #          # Connect to Azure App Configuration using a connection string.
+    #          logger.info(f"Loading config from Azure App Configuration {connection_string}")
+    #          app_config_client = AzureAppConfigurationClient.from_connection_string(connection_string)
+    #          allitems = app_config_client.list_configuration_settings(key_filter="*")
+    #          for item in allitems:
+    #                 app_config[item.key] = item.value
             
-    except binding.ServiceBindingRootMissingError as msg:
-      # log the error message and retry/exit
-      logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
+    # except binding.ServiceBindingRootMissingError as msg:
+    #   # log the error message and retry/exit
+    #   logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
      
     return app_config 
 
-@app.route('/testredis')
-def redistest():
-    import redis
-    try:
-        logger.info("Creating ServiceBinding object")
-        sb = binding.ServiceBinding()
-        logger.info("Testing Redis connection")
+# @app.route('/testredis')
+# def redistest():
+#     import redis
+#     try:
+#         logger.info("Creating ServiceBinding object")
+#         sb = binding.ServiceBinding()
+#         logger.info("Testing Redis connection")
         
-        if bindings_list := sb.bindings("redis"):
+#         if bindings_list := sb.bindings("redis"):
 
-            service_conn = dict(ChainMap(*bindings_list))
+#             service_conn = dict(ChainMap(*bindings_list))
 
-            connection = redis.Redis(host=service_conn["host"], 
-                                    port=int(service_conn["port"]), 
-                                    db=0,password=service_conn["password"])
+#             connection = redis.Redis(host=service_conn["host"], 
+#                                     port=int(service_conn["port"]), 
+#                                     db=0,password=service_conn["password"])
             
-            key = str(uuid.uuid4())
-            logger.info(f"Setting date for key {key}")
-            connection.set(key, datetime.datetime.now().isoformat())
-            return_val= connection.get(key)
+#             key = str(uuid.uuid4())
+#             logger.info(f"Setting date for key {key}")
+#             connection.set(key, datetime.datetime.now().isoformat())
+#             return_val= connection.get(key)
         
-            message=f"The date value for key:{key} from Redis is {return_val}"
-            return render_template('redis.html', message=message, connection=connection)
+#             message=f"The date value for key:{key} from Redis is {return_val}"
+#             return render_template('redis.html', message=message, connection=connection)
 
-    except binding.ServiceBindingRootMissingError as msg:
-       # log the error message and retry/exit
-       logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
-       return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
+#     except binding.ServiceBindingRootMissingError as msg:
+#        # log the error message and retry/exit
+#        logger.exception("SERVICE_BINDING_ROOT env var not set. Add a service binding to the app and try again.")
+#        return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
      
-    return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
+#     return render_template('redis.html', message="SERVICE_BINDING_ROOT env var not set.<br>Add a service binding to the app and try again.", connection=None)
 
 @app.route('/')
 def index():
