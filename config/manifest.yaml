@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - host: "simplepy.apps.az.ga.afginc.com"
+  - host: "simplepy.dev.az.ga.afginc.com"
     http:
       paths:
       - path: /
