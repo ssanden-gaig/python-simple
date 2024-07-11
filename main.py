@@ -84,6 +84,7 @@ def index():
     config['nodeName'] = os.getenv("NODE_NAME","NODENAME")
     config['podIp']  = os.getenv("POD_IP","PODIP")
     config['podNamespace']  = os.getenv("POD_NAMESPACE","PODNAMESPACE")
+    config["app_environment"] = os.getenv("APP_ENV","APPENVIRONMENT")
 
     logger.info("Rendering index.html with config")
     return render_template('index.html', config=config)
