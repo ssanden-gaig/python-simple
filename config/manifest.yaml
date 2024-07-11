@@ -48,7 +48,7 @@ spec:
             memory: "256Mi"
         env:
         - name: APP_ENV
-          value: "Hello from the UAT environment"
+          value: "Hello from the UAT Cluster"
         - name: NODE_NAME
           valueFrom:
             fieldRef:
