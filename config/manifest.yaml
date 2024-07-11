@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: cilium
   rules:
-  - host: "simplepy.dev.az.ga.afginc.com"
+  - host: "simplepy.uat.az.ga.afginc.com"
     http:
       paths:
       - path: /
@@ -47,6 +47,8 @@ spec:
             cpu: "100m"
             memory: "256Mi"
         env:
+        - name: APP_ENV
+          value: "Hello from the UAT environment"
         - name: NODE_NAME
           valueFrom:
             fieldRef:
