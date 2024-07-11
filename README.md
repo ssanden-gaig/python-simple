@@ -1,4 +1,4 @@
 
-# python-simple-cartodemo
+# A very silly Python demo application
 
-Simple Python App used with Cartographer/ArgoCD and Crossplane
+Simple Python App used for various testing with ArtgoCD, Crossplane, etc
